@@ -10,7 +10,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://food-delivery-84az.onrender.com/',
         changeOrigin: true
       }
     }
