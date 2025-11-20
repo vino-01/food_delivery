@@ -1,0 +1,342 @@
+/* ===== REALISTIC FOOD IMAGE COMPONENTS ===== */
+
+.food-image {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.food-image:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-md);
+}
+
+.food-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 60%, rgba(255, 255, 255, 0.1) 100%);
+  pointer-events: none;
+}
+
+/* ===== SOUTH INDIAN DISHES ===== */
+
+.food-image.south-indian-meals {
+  background: 
+    radial-gradient(circle at 20% 30%, #8B4513 8%, transparent 8%),
+    radial-gradient(circle at 60% 40%, #FFD700 6%, transparent 6%),
+    radial-gradient(circle at 80% 60%, #228B22 5%, transparent 5%),
+    radial-gradient(circle at 30% 70%, #FF4500 4%, transparent 4%),
+    linear-gradient(135deg, #F5DEB3 0%, #DEB887 50%, #D2B48C 100%);
+}
+
+.food-image.idli-sambar {
+  background: 
+    radial-gradient(ellipse at 30% 40%, #FFFAF0 25%, transparent 25%),
+    radial-gradient(ellipse at 70% 40%, #FFFAF0 25%, transparent 25%),
+    radial-gradient(ellipse at 50% 70%, #DAA520 15%, transparent 15%),
+    linear-gradient(180deg, #F0F8FF 0%, #E6E6FA 100%);
+}
+
+.food-image.dosa {
+  background: 
+    linear-gradient(45deg, #DEB887 0%, #F4A460 30%, #D2B48C 70%, #BC9A6A 100%),
+    radial-gradient(circle at 60% 80%, #228B22 8%, transparent 8%);
+}
+
+.food-image.vada {
+  background: 
+    radial-gradient(circle at 50% 50%, #8B4513 30%, transparent 30%),
+    radial-gradient(circle at 30% 30%, #A0522D 20%, transparent 20%),
+    radial-gradient(circle at 70% 70%, #A0522D 20%, transparent 20%),
+    linear-gradient(135deg, #DEB887 0%, #D2B48C 100%);
+}
+
+/* ===== BIRYANIS ===== */
+
+.food-image.biryani {
+  background: 
+    radial-gradient(ellipse at 20% 20%, #FFD700 8%, transparent 8%),
+    radial-gradient(ellipse at 60% 30%, #FF6347 6%, transparent 6%),
+    radial-gradient(ellipse at 80% 70%, #32CD32 5%, transparent 5%),
+    radial-gradient(ellipse at 30% 80%, #8B4513 4%, transparent 4%),
+    linear-gradient(135deg, #FFFACD 0%, #F0E68C 50%, #DAA520 100%);
+}
+
+.food-image.chicken-biryani {
+  background: 
+    radial-gradient(ellipse at 25% 25%, #CD853F 12%, transparent 12%),
+    radial-gradient(ellipse at 70% 30%, #FF6347 8%, transparent 8%),
+    radial-gradient(ellipse at 40% 70%, #32CD32 6%, transparent 6%),
+    linear-gradient(135deg, #FFFACD 0%, #F0E68C 40%, #DAA520 100%);
+}
+
+.food-image.mutton-biryani {
+  background: 
+    radial-gradient(ellipse at 30% 30%, #8B0000 10%, transparent 10%),
+    radial-gradient(ellipse at 70% 40%, #FF6347 8%, transparent 8%),
+    radial-gradient(ellipse at 50% 75%, #32CD32 6%, transparent 6%),
+    linear-gradient(135deg, #FFFACD 0%, #F0E68C 40%, #DAA520 100%);
+}
+
+/* ===== CURRIES ===== */
+
+.food-image.curry {
+  background: 
+    radial-gradient(ellipse at 40% 40%, #FF6347 20%, transparent 20%),
+    radial-gradient(ellipse at 20% 60%, #FFD700 8%, transparent 8%),
+    radial-gradient(ellipse at 80% 30%, #32CD32 6%, transparent 6%),
+    linear-gradient(135deg, #FF4500 0%, #FF6347 50%, #DC143C 100%);
+}
+
+.food-image.chicken-curry {
+  background: 
+    radial-gradient(ellipse at 30% 30%, #CD853F 15%, transparent 15%),
+    radial-gradient(ellipse at 70% 50%, #FF6347 12%, transparent 12%),
+    radial-gradient(ellipse at 50% 80%, #32CD32 8%, transparent 8%),
+    linear-gradient(135deg, #FF4500 0%, #FF6347 60%, #DC143C 100%);
+}
+
+.food-image.mutton-curry {
+  background: 
+    radial-gradient(ellipse at 35% 35%, #8B0000 12%, transparent 12%),
+    radial-gradient(ellipse at 65% 60%, #FF6347 10%, transparent 10%),
+    radial-gradient(ellipse at 80% 20%, #FFD700 6%, transparent 6%),
+    linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #B22222 100%);
+}
+
+.food-image.vegetable-curry {
+  background: 
+    radial-gradient(ellipse at 25% 25%, #32CD32 12%, transparent 12%),
+    radial-gradient(ellipse at 75% 40%, #FFD700 10%, transparent 10%),
+    radial-gradient(ellipse at 50% 70%, #FF6347 8%, transparent 8%),
+    linear-gradient(135deg, #228B22 0%, #32CD32 50%, #90EE90 100%);
+}
+
+/* ===== SWEETS ===== */
+
+.food-image.sweets {
+  background: 
+    radial-gradient(circle at 30% 30%, #FFD700 15%, transparent 15%),
+    radial-gradient(circle at 70% 50%, #FFA500 12%, transparent 12%),
+    radial-gradient(circle at 50% 80%, #FF8C00 10%, transparent 10%),
+    linear-gradient(135deg, #FFFACD 0%, #FFE4B5 50%, #DEB887 100%);
+}
+
+.food-image.jangri {
+  background: 
+    radial-gradient(circle at 50% 50%, #FF8C00 25%, transparent 25%),
+    radial-gradient(circle at 25% 75%, #FFA500 15%, transparent 15%),
+    radial-gradient(circle at 75% 25%, #FFD700 12%, transparent 12%),
+    linear-gradient(45deg, #FFA500 0%, #FF8C00 100%);
+}
+
+.food-image.adhirasam {
+  background: 
+    radial-gradient(circle at 50% 50%, #8B4513 30%, transparent 30%),
+    radial-gradient(circle at 30% 30%, #A0522D 20%, transparent 20%),
+    radial-gradient(circle at 70% 70%, #CD853F 15%, transparent 15%),
+    linear-gradient(135deg, #D2B48C 0%, #DEB887 50%, #F4A460 100%);
+}
+
+/* ===== BEVERAGES ===== */
+
+.food-image.coffee {
+  background: 
+    radial-gradient(ellipse at 50% 30%, #FFFAF0 25%, transparent 25%),
+    linear-gradient(180deg, #8B4513 0%, #A0522D 30%, #D2B48C 100%);
+}
+
+.food-image.tea {
+  background: 
+    radial-gradient(ellipse at 50% 30%, #FFFAF0 25%, transparent 25%),
+    linear-gradient(180deg, #CD853F 0%, #DEB887 50%, #F5DEB3 100%);
+}
+
+.food-image.lassi {
+  background: 
+    radial-gradient(ellipse at 30% 20%, #FFFAF0 30%, transparent 30%),
+    radial-gradient(ellipse at 70% 80%, #FFB6C1 15%, transparent 15%),
+    linear-gradient(180deg, #F0F8FF 0%, #E6E6FA 50%, #FFFAF0 100%);
+}
+
+/* ===== SNACKS ===== */
+
+.food-image.mixture {
+  background: 
+    radial-gradient(circle at 20% 20%, #FFD700 8%, transparent 8%),
+    radial-gradient(circle at 80% 30%, #FF6347 6%, transparent 6%),
+    radial-gradient(circle at 40% 80%, #32CD32 5%, transparent 5%),
+    radial-gradient(circle at 70% 70%, #8B4513 4%, transparent 4%),
+    linear-gradient(45deg, #DEB887 0%, #F4A460 100%);
+}
+
+.food-image.pakoda {
+  background: 
+    radial-gradient(ellipse at 30% 30%, #228B22 12%, transparent 12%),
+    radial-gradient(ellipse at 70% 60%, #32CD32 10%, transparent 10%),
+    radial-gradient(ellipse at 50% 80%, #90EE90 8%, transparent 8%),
+    linear-gradient(135deg, #DEB887 0%, #D2B48C 50%, #BC9A6A 100%);
+}
+
+/* ===== MULTI-CUISINE ===== */
+
+.food-image.fried-rice {
+  background: 
+    radial-gradient(ellipse at 25% 25%, #FFD700 8%, transparent 8%),
+    radial-gradient(ellipse at 75% 40%, #32CD32 6%, transparent 6%),
+    radial-gradient(ellipse at 50% 70%, #FF6347 5%, transparent 5%),
+    radial-gradient(ellipse at 80% 80%, #FFA500 4%, transparent 4%),
+    linear-gradient(135deg, #FFFACD 0%, #F0E68C 100%);
+}
+
+.food-image.paneer-butter-masala {
+  background: 
+    radial-gradient(ellipse at 30% 30%, #FFFAF0 20%, transparent 20%),
+    radial-gradient(ellipse at 70% 50%, #FFFAF0 15%, transparent 15%),
+    radial-gradient(ellipse at 50% 80%, #32CD32 8%, transparent 8%),
+    linear-gradient(135deg, #FF6347 0%, #DC143C 50%, #B22222 100%);
+}
+
+/* ===== CATEGORY ICONS ===== */
+
+.category-food-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.category-food-icon.traditional-meals {
+  background: 
+    radial-gradient(circle at 40% 40%, #228B22 30%, transparent 30%),
+    linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%);
+}
+
+.category-food-icon.biryani-special {
+  background: 
+    radial-gradient(circle at 50% 50%, #FFD700 40%, transparent 40%),
+    linear-gradient(135deg, #FFFACD 0%, #DAA520 100%);
+}
+
+.category-food-icon.chettinad {
+  background: 
+    radial-gradient(circle at 50% 50%, #DC143C 35%, transparent 35%),
+    linear-gradient(135deg, #FF4500 0%, #8B0000 100%);
+}
+
+.category-food-icon.multi-cuisine {
+  background: 
+    radial-gradient(circle at 30% 30%, #32CD32 15%, transparent 15%),
+    radial-gradient(circle at 70% 70%, #FFD700 15%, transparent 15%),
+    linear-gradient(135deg, #F0E68C 0%, #DEB887 100%);
+}
+
+.category-food-icon.sweets {
+  background: 
+    radial-gradient(circle at 50% 50%, #FFA500 35%, transparent 35%),
+    linear-gradient(135deg, #FFFACD 0%, #FFE4B5 100%);
+}
+
+.category-food-icon.quick-tiffin {
+  background: 
+    radial-gradient(circle at 50% 50%, #FFFAF0 30%, transparent 30%),
+    linear-gradient(135deg, #DEB887 0%, #F4A460 100%);
+}
+
+/* ===== RESTAURANT BANNERS ===== */
+
+.restaurant-banner-image {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-md) var(--radius-md) 0 0; /* Consistent with other cards */
+  position: relative;
+}
+
+.restaurant-banner-image.annapoorna {
+  background: 
+    radial-gradient(ellipse at 20% 80%, #228B22 15%, transparent 15%),
+    radial-gradient(ellipse at 80% 20%, #FFD700 12%, transparent 12%),
+    linear-gradient(135deg, #F5DEB3 0%, #DEB887 50%, #D2B48C 100%);
+}
+
+.restaurant-banner-image.selvam {
+  background: 
+    radial-gradient(ellipse at 30% 70%, #8B0000 20%, transparent 20%),
+    radial-gradient(ellipse at 70% 30%, #FFD700 15%, transparent 15%),
+    linear-gradient(135deg, #FFFACD 0%, #DAA520 50%, #B8860B 100%);
+}
+
+.restaurant-banner-image.lakshmi-vilas {
+  background: 
+    radial-gradient(ellipse at 25% 25%, #32CD32 18%, transparent 18%),
+    radial-gradient(ellipse at 75% 75%, #FFD700 15%, transparent 15%),
+    linear-gradient(135deg, #F0FFF0 0%, #90EE90 50%, #228B22 100%);
+}
+
+.restaurant-banner-image.modern-cafe {
+  background: 
+    radial-gradient(ellipse at 20% 80%, #FF6347 12%, transparent 12%),
+    radial-gradient(ellipse at 80% 20%, #32CD32 10%, transparent 10%),
+    radial-gradient(ellipse at 50% 50%, #FFD700 8%, transparent 8%),
+    linear-gradient(135deg, #F0E68C 0%, #DEB887 100%);
+}
+
+.restaurant-banner-image.thalappakatti {
+  background: 
+    radial-gradient(ellipse at 40% 60%, #8B4513 25%, transparent 25%),
+    radial-gradient(ellipse at 60% 40%, #FFD700 20%, transparent 20%),
+    linear-gradient(135deg, #FFFACD 0%, #F0E68C 40%, #DAA520 100%);
+}
+
+.restaurant-banner-image.saravana-bhavan {
+  background: 
+    radial-gradient(ellipse at 30% 30%, #FFFAF0 30%, transparent 30%),
+    radial-gradient(ellipse at 70% 70%, #228B22 15%, transparent 15%),
+    linear-gradient(135deg, #DEB887 0%, #F4A460 100%);
+}
+
+.restaurant-banner-image.royal-sweets {
+  background: 
+    radial-gradient(ellipse at 25% 75%, #FFA500 20%, transparent 20%),
+    radial-gradient(ellipse at 75% 25%, #FFD700 18%, transparent 18%),
+    linear-gradient(135deg, #FFFACD 0%, #FFE4B5 50%, #DEB887 100%);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .restaurant-banner-image {
+    height: 150px;
+  }
+  
+  .category-food-icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .restaurant-banner-image {
+    height: 120px;
+  }
+  
+  .category-food-icon {
+    width: 40px;
+    height: 40px;
+  }
+}

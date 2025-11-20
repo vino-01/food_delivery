@@ -1,0 +1,23 @@
+{
+  "restaurants": [],
+  "menuItems": [],
+  "ratings": [],
+  "orders": [
+    {
+      "restaurantId": "pr003",
+      "items": [
+        {
+          "name": "Jangri",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 30,
+      "userName": "Demo User",
+      "userEmail": "9994453483@yummybites.com",
+      "status": "pending",
+      "createdAt": 1763486940777
+    }
+  ],
+  "users": []
+}

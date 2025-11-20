@@ -1,0 +1,109 @@
+/* These variables are now in index.css, keeping only font imports */
+/* Removed font imports - they should be in index.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* Font family already set in index.css */
+  /* Background and color already set in index.css */
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  /* Font family already set in index.css, using Inter */
+  color: var(--text);
+}
+
+#root, .App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+}
+
+/* Standardized Button Utility Classes */
+/* Base button style (can be extended by other buttons) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary {
+  @extend .btn;
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 6px 18px rgba(99,102,241,0.32);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(99,102,241,0.4);
+}
+
+.btn-secondary {
+  @extend .btn;
+  background: var(--surface);
+  color: var(--brand-primary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger {
+  @extend .btn;
+  background: var(--brand-danger);
+  color: white;
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.32);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(239, 68, 68, 0.4);
+}
+
+.btn-success {
+  @extend .btn;
+  background: var(--brand-accent);
+  color: white;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.32);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.4);
+}
+
+.btn-sm {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.85rem;
+}
+
+/* Card styles moved to pages.css for broader use or directly apply .glass utility */
+/* .card { ... } */
+
+@media (max-width: 768px) {
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
