@@ -105,7 +105,7 @@ const RestaurantDashboard = () => {
       return
     }
     const loadAll = async () => {
-      const baseDebug = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+      const baseDebug = import.meta.env.VITE_API_BASE_URL || 'https://food-delivery-84az.onrender.com'
       console.log('[Analytics] Refresh start', { restaurantId, baseDebug })
       const next = { summary: null, bestItems: [], statusBreakdown: null, peakHours: [], revenueTrend: [], topCustomers: [] }
       let hadError = false
@@ -206,7 +206,7 @@ const RestaurantDashboard = () => {
 
   const loadRatings = async () => {
     try {
-      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+      const base = import.meta.env.VITE_API_BASE_URL || 'https://food-delivery-84az.onrender.com'
       const res = await fetch(`${base}/api/ratings/summary?restaurantId=${encodeURIComponent(restaurantId)}`)
       if (!res.ok) throw new Error('Failed to fetch ratings')
       const data = await res.json()

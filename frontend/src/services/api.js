@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://food-delivery-84az.onrender.com';
 
 export async function apiRequest(path, options = {}) {
   const url = `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
