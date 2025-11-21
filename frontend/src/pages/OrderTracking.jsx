@@ -15,7 +15,7 @@ const OrderTracking = () => {
     { id: 0, title: 'Waiting to Accept', description: 'Restaurant will accept shortly', icon: '🕓' },
     { id: 1, title: 'Accepted', description: 'Restaurant accepted your order', icon: '✅' },
     { id: 2, title: 'Preparing', description: 'Food is being prepared', icon: '👨‍🍳' },
-    { id: 3, title: 'Ready', description: 'Food ready for handoff', icon: '🍽️' },
+    { id: 3, title: 'Ready', description: 'Food ready for handoff', icon: '📦' },
     { id: 4, title: 'Delivered', description: 'Enjoy your meal!', icon: '🎉' }
   ];
   const prevStatusRef = useRef(null)

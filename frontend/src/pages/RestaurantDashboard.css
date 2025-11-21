@@ -1,13 +1,13 @@
 /* Restaurant Dashboard Styles */
 :root {
   /* Dynamic header offset; JS will update this value */
-  --rd-header-offset: 0px;
+  --rd-header-offset: 270px;
 }
 .restaurant-dashboard {
   min-height: 100vh;
   background: var(--page-bg);
   /* Offset main content so fixed header doesn't overlap */
-  padding-top: var(--rd-header-offset);
+
 }
 
 .container {
@@ -18,20 +18,22 @@
 
 /* Dashboard Header */
 .dashboard-header {
-  background: var(--rd-accent, var(--surface)); /* Solid color replaces previous gradient */
+  position: relative;
+   background: var(--rd-accent, var(--surface));
   border-bottom: 4px solid var(--rd-accent, var(--border));
-  padding: 24px 0 20px;
-  position: fixed;
+  
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
+  height: var(--rd-fixed-header-height);
   z-index: 500;
   box-shadow: var(--shadow-sm);
-  transition: background 0.4s ease, border-color 0.4s ease;
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  
+  
 }
 
 /* Force white typography in header for better contrast on accent background */

@@ -33,7 +33,7 @@ const Menu = () => {
 
   if (loading) return (
     <div className='page loading-state'>
-      <span className="loading-spinner">🍽️</span>
+      <span className="loading-spinner"></span>
       <h2>Loading Menu...</h2>
       <p>Fetching delicious items for you!</p>
     </div>

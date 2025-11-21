@@ -1,6 +1,6 @@
 
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import React, { useLayoutEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import CustomerOnly from './components/RouteGuards/CustomerOnly.jsx'
 import AdminOnly from './components/RouteGuards/AdminOnly.jsx'
@@ -29,41 +29,58 @@ import { CartProvider } from './context/CartContext'
 import { NotificationProvider } from './components/NotificationSystem/NotificationSystem'
 import './App.css'
 
+function AppShell() {
+  const location = useLocation()
+  const hideNavbar = location.pathname.startsWith('/restaurant/') && location.pathname.endsWith('/dashboard')
+
+  useLayoutEffect(() => {
+    const body = document.body
+    if (hideNavbar) {
+      body.classList.remove('with-navbar')
+    } else {
+      body.classList.add('with-navbar')
+    }
+  }, [hideNavbar])
+  return (
+    <div className="App">
+      {!hideNavbar && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/restaurants" element={<Restaurants />} />
+        <Route path="/restaurants/:id" element={<RestaurantDetail />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/cart" element={<CustomerOnly><Cart /></CustomerOnly>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<CustomerOnly><CustomerProfile /></CustomerOnly>} />
+        <Route path="/payment" element={<CustomerOnly><Payment /></CustomerOnly>} />
+        <Route path="/group-orders/create" element={<GroupPaymentCreator />} />
+        <Route path="/group-payment/:groupId" element={<GroupPaymentTracker />} />
+        <Route path="/restaurant/:restaurantId/dashboard" element={<AdminOnly><RestaurantDashboard /></AdminOnly>} />
+        {/* Legacy admin route redirect to new dashboard */}
+        <Route path="/admin/:restaurantId" element={<Navigate to="/restaurant/:restaurantId/dashboard" replace />} />
+        <Route path="/nearby" element={<NearbyRestaurants />} />
+        <Route path="/cuisines" element={<Cuisines />} />
+        <Route path="/cuisine/:id" element={<CuisineDetail />} />
+        <Route path="/cravings" element={<Cravings />} />
+        <Route path="/mood" element={<MoodOrdering />} />
+        <Route path="/order-tracking/:orderId" element={<OrderTracking />} />
+        <Route path="/my-orders" element={<CustomerOnly><Orders /></CustomerOnly>} />
+        <Route path="/orders" element={<Navigate to="/my-orders" replace />} />
+      </Routes>
+      <Footer />
+    </div>
+  )
+}
+
 function App() {
   return (
     <NotificationProvider>
       <CartProvider>
         <Router>
-          <div className="App">
-            <Navbar />
-            <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/restaurants" element={<Restaurants />} />
-            <Route path="/restaurants/:id" element={<RestaurantDetail />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/cart" element={<CustomerOnly><Cart /></CustomerOnly>} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<CustomerOnly><CustomerProfile /></CustomerOnly>} />
-            <Route path="/payment" element={<CustomerOnly><Payment /></CustomerOnly>} />
-            <Route path="/group-orders/create" element={<GroupPaymentCreator />} />
-            <Route path="/group-payment/:groupId" element={<GroupPaymentTracker />} />
-            <Route path="/restaurant/:restaurantId/dashboard" element={<AdminOnly><RestaurantDashboard /></AdminOnly>} />
-            {/* Legacy admin route redirect to new dashboard */}
-            <Route path="/admin/:restaurantId" element={<Navigate to="/restaurant/:restaurantId/dashboard" replace />} />
-            <Route path="/nearby" element={<NearbyRestaurants />} />
-            <Route path="/cuisines" element={<Cuisines />} />
-            <Route path="/cuisine/:id" element={<CuisineDetail />} />
-            <Route path="/cravings" element={<Cravings />} />
-            <Route path="/mood" element={<MoodOrdering />} />
-            <Route path="/order-tracking/:orderId" element={<OrderTracking />} />
-            <Route path="/my-orders" element={<CustomerOnly><Orders /></CustomerOnly>} />
-            <Route path="/orders" element={<Navigate to="/my-orders" replace />} />
-          </Routes>
-            <Footer />
-        </div>
-      </Router>
-    </CartProvider>
+          <AppShell />
+        </Router>
+      </CartProvider>
     </NotificationProvider>
   )
 }

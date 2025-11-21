@@ -87,113 +87,43 @@ const Home = () => {
               <span className="stat-number">{loadingStats ? '—' : (stats.delivered ?? 0)}</span>
               <span className="stat-label">Orders Delivered</span>
             </div>
-            <SmartReorderCard />
           </div>
         </div>
       </header>
 
-      <section className="categories">
+      <section className="categories" style={{ cursor: 'pointer' }} onClick={() => navigate('/restaurants')}>
         <div className="container">
           <h2 className="section-title">Explore Cuisines</h2>
           <div className="categories-grid">
-            <a href="/cuisine/indian" className="category-card">
+            <div className="category-card">
               <span className="category-icon">🍛</span>
               <h3>Indian</h3>
-            </a>
-            <a href="/cuisine/italian" className="category-card">
+            </div>
+            <div className="category-card">
               <span className="category-icon">🍕</span>
               <h3>Italian</h3>
-            </a>
-            <a href="/cuisine/chinese" className="category-card">
+            </div>
+            <div className="category-card">
               <span className="category-icon">🍜</span>
               <h3>Chinese</h3>
-            </a>
-            <a href="/cuisine/mexican" className="category-card">
+            </div>
+            <div className="category-card">
               <span className="category-icon">🌮</span>
               <h3>Mexican</h3>
-            </a>
-            <a href="/cuisine/american" className="category-card">
+            </div>
+            <div className="category-card">
               <span className="category-icon">🍔</span>
               <h3>American</h3>
-            </a>
-            <a href="/cuisine/desserts" className="category-card">
+            </div>
+            <div className="category-card">
               <span className="category-icon">🍰</span>
               <h3>Desserts</h3>
-            </a>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="restaurants">
-        <div className="container">
-          <h2 className="section-title">Popular Restaurants</h2>
-          <div className="restaurants-grid">
-            {restaurants && restaurants.length > 0 ? (
-              restaurants.slice(0, 3).map((r) => (
-                <a key={r._id || r.id || r.name} href={`/restaurant/${r._id || r.id || ''}`} className="restaurant-card">
-                      <div
-                        className="restaurant-image"
-                        style={r.image ? { backgroundImage: `url(${r.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-                      >
-                        {!r.image && <span className="restaurant-icon">🍽️</span>}
-                      </div>
-                  <div className="restaurant-info">
-                    <h3>{r.name}</h3>
-                    <p className="cuisine">{r.cuisine || r.categories || ''}</p>
-                    <div className="restaurant-meta">
-                      <span className="rating">{r.rating ? `⭐ ${r.rating}` : '⭐ —'}</span>
-                      <span className="delivery-time">{r.etaMins ? ` • ${r.etaMins}-${r.etaMins + 15} min` : ''}</span>
-                    </div>
-                  </div>
-                </a>
-              ))
-            ) : (
-              /* fallback static cards */
-              <>
-                <a href="/restaurant/1" className="restaurant-card">
-                  <div className="restaurant-image">
-                    <span className="restaurant-icon">🍽️</span>
-                  </div>
-                  <div className="restaurant-info">
-                    <h3>Gourmet Grill</h3>
-                    <p className="cuisine">Modern European</p>
-                    <div className="restaurant-meta">
-                      <span className="rating">⭐ 4.5</span>
-                      <span className="delivery-time"> • 30-45 min</span>
-                    </div>
-                  </div>
-                </a>
-                <a href="/restaurant/2" className="restaurant-card">
-                  <div className="restaurant-image">
-                    <span className="restaurant-icon">🍣</span>
-                  </div>
-                  <div className="restaurant-info">
-                    <h3>Sushi Haven</h3>
-                    <p className="cuisine">Japanese, Sushi</p>
-                    <div className="restaurant-meta">
-                      <span className="rating">⭐ 4.8</span>
-                      <span className="delivery-time"> • 20-30 min</span>
-                    </div>
-                  </div>
-                </a>
-                <a href="/restaurant/3" className="restaurant-card">
-                  <div className="restaurant-image">
-                    <span className="restaurant-icon">🌶️</span>
-                  </div>
-                  <div className="restaurant-info">
-                    <h3>Spice Route</h3>
-                    <p className="cuisine">Authentic Indian</p>
-                    <div className="restaurant-meta">
-                      <span className="rating">⭐ 4.2</span>
-                      <span className="delivery-time"> • 40-50 min</span>
-                    </div>
-                  </div>
-                </a>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* Popular Restaurants section removed per request */}
 
       <section className="features">
         <div className="container">

@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
 
+
+
 .navbar {
   position: fixed;
+  height: 80px;
   top: 0;
   left: 0;
   right: 0;
@@ -10,6 +13,7 @@
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #f4d9c8;
   box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  
 }
 
 .navbar-container {

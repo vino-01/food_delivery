@@ -83,8 +83,7 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo">
-          <div className="logo-icon">🍽️</div>
-          <span className="logo-text">YummyBites 😋</span>
+          <span className="logo-text">YummyBites</span>
         </Link>
 
         {/* Navigation Links */}

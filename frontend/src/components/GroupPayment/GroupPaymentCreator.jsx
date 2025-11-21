@@ -188,60 +188,62 @@ const GroupPaymentCreator = () => {
 
       {/* Step 1: Organizer Info */}
       {step === 1 && (
-        <div className="step-content">
+        <div className="step-content step-center-wrap">
           <h2>Organizer Information</h2>
-          <div className="form-group">
-            <label>Name *</label>
-            <input
-              type="text"
-              value={organizerInfo.name}
-              onChange={(e) => setOrganizerInfo({...organizerInfo, name: e.target.value})}
-              placeholder="Your name"
-            />
+          <div className="form-fields-center">
+            <div className="form-group">
+              <label>Name *</label>
+              <input
+                type="text"
+                value={organizerInfo.name}
+                onChange={(e) => setOrganizerInfo({...organizerInfo, name: e.target.value})}
+                placeholder="Your name"
+              />
+            </div>
+            <div className="form-group">
+              <label>Email *</label>
+              <input
+                type="email"
+                value={organizerInfo.email}
+                onChange={(e) => setOrganizerInfo({...organizerInfo, email: e.target.value})}
+                placeholder="your.email@example.com"
+              />
+            </div>
+            <div className="form-group">
+              <label>Phone</label>
+              <input
+                type="tel"
+                value={organizerInfo.phone}
+                onChange={(e) => setOrganizerInfo({...organizerInfo, phone: e.target.value})}
+                placeholder="Your phone number"
+              />
+            </div>
+            <div className="form-group">
+              <label>Delivery Address *</label>
+              <textarea
+                value={organizerInfo.deliveryAddress}
+                onChange={(e) => setOrganizerInfo({...organizerInfo, deliveryAddress: e.target.value})}
+                placeholder="Full delivery address"
+                rows="3"
+              />
+            </div>
+            <div className="form-group">
+              <label>Notes (Optional)</label>
+              <textarea
+                value={organizerInfo.notes}
+                onChange={(e) => setOrganizerInfo({...organizerInfo, notes: e.target.value})}
+                placeholder="Any special instructions or notes for the group"
+                rows="2"
+              />
+            </div>
+            <button 
+              className="btn primary next"
+              onClick={() => setStep(2)}
+              disabled={!organizerInfo.name || !organizerInfo.email || !organizerInfo.deliveryAddress}
+            >
+              Next: Choose Split Type
+            </button>
           </div>
-          <div className="form-group">
-            <label>Email *</label>
-            <input
-              type="email"
-              value={organizerInfo.email}
-              onChange={(e) => setOrganizerInfo({...organizerInfo, email: e.target.value})}
-              placeholder="your.email@example.com"
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone</label>
-            <input
-              type="tel"
-              value={organizerInfo.phone}
-              onChange={(e) => setOrganizerInfo({...organizerInfo, phone: e.target.value})}
-              placeholder="Your phone number"
-            />
-          </div>
-          <div className="form-group">
-            <label>Delivery Address *</label>
-            <textarea
-              value={organizerInfo.deliveryAddress}
-              onChange={(e) => setOrganizerInfo({...organizerInfo, deliveryAddress: e.target.value})}
-              placeholder="Full delivery address"
-              rows="3"
-            />
-          </div>
-          <div className="form-group">
-            <label>Notes (Optional)</label>
-            <textarea
-              value={organizerInfo.notes}
-              onChange={(e) => setOrganizerInfo({...organizerInfo, notes: e.target.value})}
-              placeholder="Any special instructions or notes for the group"
-              rows="2"
-            />
-          </div>
-          <button 
-            className="btn primary next"
-            onClick={() => setStep(2)}
-            disabled={!organizerInfo.name || !organizerInfo.email || !organizerInfo.deliveryAddress}
-          >
-            Next: Choose Split Type
-          </button>
         </div>
       )}
 

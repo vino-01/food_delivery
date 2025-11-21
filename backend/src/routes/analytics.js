@@ -24,6 +24,7 @@ router.get('/:restaurantId/summary', async (req, res) => {
     const startOfWeek = new Date(startOfDay); startOfWeek.setDate(startOfDay.getDate() - startOfDay.getDay())
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
     let revenue = 0, pending = 0, deliveredDay = 0, deliveredWeek = 0, deliveredMonth = 0
+    let deliveredCount = 0, cancelledCount = 0, prepTimeTotalMs = 0, prepTimeSamples = 0
     const statuses = { pending: 0, confirmed: 0, preparing: 0, ready: 0, delivered: 0, cancelled: 0 }
     const customerSet = new Set()
     orders.forEach(o => {
@@ -36,15 +37,42 @@ router.get('/:restaurantId/summary', async (req, res) => {
         if (created >= startOfDay) deliveredDay++
         if (created >= startOfWeek) deliveredWeek++
         if (created >= startOfMonth) deliveredMonth++
+        deliveredCount++
+      }
+      if (o.status === 'cancelled') cancelledCount++
+      // Approximate fulfillment/preparation duration if timestamps exist
+      if (o.status === 'delivered' && o.statusTimestamps && o.statusTimestamps.confirmed && o.statusTimestamps.delivered) {
+        const start = new Date(o.statusTimestamps.confirmed).getTime()
+        const end = new Date(o.statusTimestamps.delivered).getTime()
+        if (!isNaN(start) && !isNaN(end) && end > start) {
+          prepTimeTotalMs += (end - start)
+          prepTimeSamples++
+        }
       }
     })
+    const avgOrderValue = orders.length ? +(revenue / Math.max(1, deliveredCount || orders.length)).toFixed(2) : 0
+    const cancellationRate = orders.length ? +(cancelledCount / orders.length * 100).toFixed(1) : 0
+    const avgFulfillmentMinutes = prepTimeSamples ? +(prepTimeTotalMs / prepTimeSamples / 60000).toFixed(1) : null
+    // Last 7 days revenue (rolling window)
+    const sevenDaysAgo = new Date(Date.now() - 7*24*60*60*1000)
+    const last7dRevenue = orders.reduce((sum,o) => {
+      if (['pending','cancelled'].includes(o.status)) return sum
+      const t = new Date(o.createdAt)
+      return t >= sevenDaysAgo ? sum + Number(o.total||0) : sum
+    }, 0)
     res.json({
       totalOrders: orders.length,
       revenue,
       pending,
       statusBreakdown: statuses,
       distinctCustomers: customerSet.size,
-      delivered: { day: deliveredDay, week: deliveredWeek, month: deliveredMonth }
+      delivered: { day: deliveredDay, week: deliveredWeek, month: deliveredMonth },
+      deliveredCount,
+      cancelledCount,
+      avgOrderValue,
+      cancellationRate, // percentage
+      avgFulfillmentMinutes, // may be null if not enough samples
+      last7dRevenue
     })
   } catch (e) {
     console.error('[ANALYTICS] summary error', e.message)

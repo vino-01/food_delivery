@@ -19,7 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.0",
     "node-cache": "^5.1.2",
-    "twilio": "^5.8.0",
+    "twilio": "^5.10.6",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

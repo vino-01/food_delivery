@@ -200,7 +200,7 @@ const Cart = () => {
                 {restaurantItems.map((item) => (
                   <div key={item.id} className="cart-item">
                     <div className="item-image">
-                      <span className="item-icon">🍽️</span>
+                      <span className="item-icon"></span>
                     </div>
                     
                     <div className="item-details">

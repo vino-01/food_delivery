@@ -21,7 +21,7 @@ const Wishlist = () => {
             item: {
               id: 'tn_pr_001',
               name: 'Annapoorna Restaurant',
-              image: '🍽️',
+              image: '',
               cuisine: 'South Indian',
               rating: 4.5,
               deliveryTime: '25-30 mins',

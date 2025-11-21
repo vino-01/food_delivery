@@ -181,7 +181,6 @@ const Signup = () => {
       }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🍽️</div>
           <h1 style={{
             fontSize: '1.5rem',
             fontWeight: '600',

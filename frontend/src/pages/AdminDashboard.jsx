@@ -220,7 +220,7 @@ const AdminDashboard = () => {
             className={`tab-btn ${activeTab === 'menu' ? 'active' : ''}`}
             onClick={() => setActiveTab('menu')}
           >
-            🍽️ Menu Management
+            Menu Management
           </button>
         </div>
         </div>
@@ -311,7 +311,7 @@ const AdminDashboard = () => {
                         className="btn btn-primary"
                         onClick={() => updateOrderStatus(order.id, 'ready')}
                       >
-                        🍽️ Mark Ready
+                          Mark Ready
                       </button>
                     )}
                     {order.status === 'ready' && (

@@ -7,7 +7,7 @@ import '../App.css'
 const Restaurants = () => {
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sortBy, setSortBy] = useState('rating') // rating, delivery_time, name
+  const [sortBy, setSortBy] = useState('name') // name only
   const [filterBy, setFilterBy] = useState('all') // all, veg, non-veg
 
   useEffect(() => {
@@ -51,18 +51,7 @@ const Restaurants = () => {
 
     // Sort restaurants
     filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'rating':
-          return b.rating - a.rating;
-        case 'delivery_time':
-          const timeA = parseInt(a.deliveryTime.split('-')[0]);
-          const timeB = parseInt(b.deliveryTime.split('-')[0]);
-          return timeA - timeB;
-        case 'name':
-          return a.name.localeCompare(b.name);
-        default:
-          return 0;
-      }
+      return a.name.localeCompare(b.name);
     });
 
     return filtered;
@@ -84,7 +73,7 @@ const Restaurants = () => {
       <div className="container">
         {/* Header */}
         <div className="restaurants-header">
-          <h1>🍽️ Restaurants in Perudurai</h1>
+          <h1>Restaurants in Perudurai</h1>
           <p>
             Discover the best local restaurants serving delicious food from traditional South Indian to modern multi-cuisine delights
           </p>
@@ -98,7 +87,7 @@ const Restaurants = () => {
               onClick={() => setFilterBy('all')}
               className={`btn ${filterBy === 'all' ? 'active' : ''}`}
             >
-              🍽️ All Cuisines
+              All Cuisines
             </button>
             <button
               onClick={() => setFilterBy('veg')}
@@ -115,15 +104,7 @@ const Restaurants = () => {
           </div>
 
           {/* Sort Dropdown */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="sort-select"
-          >
-            <option value="rating">⭐ Sort by Rating</option>
-            <option value="delivery_time">🕒 Sort by Delivery Time</option>
-            <option value="name">📝 Sort by Name</option>
-          </select>
+          {/* Only sort by name, so dropdown is removed */}
         </div>
 
         {/* Restaurant Grid */}
@@ -145,10 +126,7 @@ const Restaurants = () => {
                   {restaurant.cuisine}
                 </div>
                 
-                {/* Rating Badge */}
-                <div className="rating-badge">
-                  ⭐ {restaurant.rating}
-                </div>
+                {/* Rating Badge removed */}
               </div>
 
               {/* Restaurant Info */}
@@ -184,7 +162,7 @@ const Restaurants = () => {
         {/* No restaurants found */}
         {filteredRestaurants.length === 0 && !loading && (
           <div className="no-restaurants-found">
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🍽️</div>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}></div>
             <h3>No restaurants found</h3>
             <p>Try adjusting your filters or check back later.</p>
           </div>

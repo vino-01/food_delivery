@@ -205,6 +205,7 @@
   gap: 25px;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: stretch; /* Ensure cards stretch uniformly */
 }
 
 .menu-item-card.enhanced {
@@ -216,6 +217,8 @@
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
+  min-height: 340px; /* Establish a baseline height for alignment */
+  position: relative;
 }
 
 .menu-item-card.enhanced:hover {
@@ -273,6 +276,9 @@
   font-weight: 600;
   color: var(--text);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Prevent title text from spilling */
 }
 
 .menu-item-card.enhanced .item-price {
@@ -286,6 +292,11 @@
   font-size: 0.95rem;
   margin-bottom: 15px;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines for uniformity */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 4.5em; /* Fallback for non-webkit */
 }
 
 .item-ingredients,
@@ -310,6 +321,8 @@
   flex-wrap: wrap;
   gap: 5px;
   margin-top: 8px;
+  max-height: 80px;
+  overflow-y: auto; /* Prevent ingredient overflow stretching card */
 }
 
 .ingredient-tag,
@@ -319,6 +332,7 @@
   padding: 5px 10px;
   border-radius: var(--radius-pill);
   font-size: 0.8rem;
+  word-break: break-word; /* Avoid long words breaking layout */
 }
 
 .add-to-cart-btn {
@@ -510,6 +524,7 @@
   .menu-item-card.enhanced {
     padding: 20px;
     border-radius: var(--radius-md);
+    min-height: 300px; /* Slightly reduced baseline on mobile */
   }
 
   .menu-item-card.enhanced h3 {
@@ -522,6 +537,8 @@
 
   .item-description {
     font-size: 0.85rem;
+    -webkit-line-clamp: 4; /* Allow a bit more text on small screens */
+    max-height: 5.6em;
   }
 
   .item-ingredients,

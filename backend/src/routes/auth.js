@@ -37,29 +37,35 @@ const sendOTP = async (mobile, otp) => {
       return { success: false, error: error.message }
     }
   } else {
-    // Demo mode - just log the OTP
-    console.log(`📱 Demo OTP for ${mobile}: ${otp}`)
-    return { success: true, demo: true }
+    // No Twilio config - fail
+    return { success: false, error: 'Twilio is not configured. Please set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_PHONE_NUMBER.' }
   }
 }
 
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, password } = req.body
-    if (!name || !email || !password) return res.status(400).json({ message: 'All fields required' })
+    const { name, email, mobile, password } = req.body
+    if (!name || !email || !mobile || !password) return res.status(400).json({ message: 'All fields required' })
 
     if (!globalThis.__db_ready) {
       const token = jwt.sign({ userId: 'temp', email }, JWT_SECRET, { expiresIn: '7d' })
-      return res.status(201).json({ token, user: { id: 'temp', name, email } })
+      return res.status(201).json({ token, user: { id: 'temp', name, email, mobile } })
     }
 
-    const existing = await User.findOne({ email })
-    if (existing) return res.status(409).json({ message: 'Email already registered' })
+    // Check for existing user by email or mobile
+    const existing = await User.findOne({ $or: [ { email }, { mobile } ] })
+    if (existing) {
+      if (existing.email === email) {
+        return res.status(409).json({ message: 'Email already registered' })
+      } else {
+        return res.status(409).json({ message: 'Mobile number already registered' })
+      }
+    }
 
     const passwordHash = await bcrypt.hash(password, 10)
-    const user = await User.create({ name, email, passwordHash })
+    const user = await User.create({ name, email, mobile, passwordHash })
     const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' })
-    res.status(201).json({ token, user: { id: user._id, name: user.name, email: user.email } })
+    res.status(201).json({ token, user: { id: user._id, name: user.name, email: user.email, mobile: user.mobile } })
   } catch (err) {
     res.status(500).json({ message: 'Signup failed' })
   }
@@ -133,116 +139,6 @@ router.post('/send-otp', async (req, res) => {
   }
 })
 
-// Verify OTP and create/login user
-router.post('/verify-otp', async (req, res) => {
-  try {
-    const { mobile, otp, name } = req.body
-
-    // Validate input
-    if (!mobile || !otp) {
-      return res.status(400).json({
-        success: false,
-        message: 'Mobile number and OTP are required'
-      })
-    }
-
-    if (!/^\d{10}$/.test(mobile)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide a valid 10-digit mobile number'
-      })
-    }
-
-    if (!/^\d{6}$/.test(otp)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide a valid 6-digit OTP'
-      })
-    }
-
-    // Get stored OTP from cache
-    const storedOTP = otpCache.get(mobile)
-
-    if (!storedOTP) {
-      return res.status(400).json({
-        success: false,
-        message: 'OTP expired or invalid. Please request a new OTP.'
-      })
-    }
-
-    if (storedOTP !== otp) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid OTP. Please try again.'
-      })
-    }
-
-    // OTP is valid, remove from cache
-    otpCache.del(mobile)
-
-    // Check if user exists or create new user
-    let user
-    if (globalThis.__db_ready) {
-      user = await User.findOne({ mobile })
-
-      if (!user) {
-        // Create new user
-        if (!name) {
-          return res.status(400).json({
-            success: false,
-            message: 'Name is required for new user registration'
-          })
-        }
-
-        user = await User.create({
-          name,
-          mobile,
-          email: `${mobile}@yummybites.com`,
-          isVerified: true
-        })
-      }
-    } else {
-      // Demo mode - create temporary user
-      user = {
-        _id: 'temp_' + Date.now(),
-        name: name || 'Customer User',
-        mobile,
-        email: `${mobile}@yummybites.com`,
-        isVerified: true
-      }
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
-      {
-        userId: user._id,
-        mobile: user.mobile,
-        email: user.email
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    )
-
-    res.json({
-      success: true,
-      message: 'OTP verified successfully',
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        mobile: user.mobile,
-        email: user.email,
-        isVerified: user.isVerified
-      }
-    })
-  } catch (error) {
-    console.error('Verify OTP error:', error)
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    })
-  }
-})
 
 // Login with mobile (and optional password)
 router.post('/login', async (req, res) => {
@@ -261,6 +157,13 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Please provide a valid 10-digit mobile number'
+      })
+    }
+
+    if (!password) {
+      return res.status(401).json({
+        success: false,
+        message: 'Password is required for all users.'
       })
     }
 
@@ -283,23 +186,28 @@ router.post('/login', async (req, res) => {
         })
       }
 
-      // For OTP-verified users, password is optional (they can login with just mobile)
-      // If they have a password hash, check it; otherwise allow login
-      if (user.passwordHash && password) {
-        const isValidPassword = await bcrypt.compare(password, user.passwordHash)
-        if (!isValidPassword) {
-          return res.status(401).json({
-            success: false,
-            message: 'Invalid password. Try again or use OTP signup if you forgot your password.'
-          })
-        }
-      } else if (user.passwordHash && !password) {
+
+      // Enforce password for all users
+      if (!user.passwordHash) {
+        console.log(`[LOGIN DEBUG] User found but no passwordHash. Mobile: ${mobile}`);
         return res.status(401).json({
           success: false,
-          message: 'Password required for this account.'
+          message: 'Password not set for this account. Please reset your password or contact support.'
         })
       }
-      // If no passwordHash, allow login (OTP-only user)
+
+      // Debug logging for password check
+      console.log(`[LOGIN DEBUG] Attempt login for mobile: ${mobile}`);
+      console.log(`[LOGIN DEBUG] Provided password: ${password}`);
+      console.log(`[LOGIN DEBUG] Stored passwordHash: ${user.passwordHash}`);
+      const isValidPassword = await bcrypt.compare(password, user.passwordHash)
+      console.log(`[LOGIN DEBUG] bcrypt.compare result: ${isValidPassword}`);
+      if (!isValidPassword) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid password. Try again or reset your password.'
+        })
+      }
 
       // Generate JWT token
       const token = jwt.sign(

@@ -10,6 +10,7 @@ import {
   getAnalyticsTopCustomers
 } from '../services/api'
 import { useRestaurant } from '../context/RestaurantContext.jsx'
+import { restaurantMenus } from '../data/restaurantMenus'
 import { useParams, useNavigate } from 'react-router-dom'
 import { showSuccessToast, showErrorToast } from '../utils/toast.js'
 import './RestaurantDashboard.css'
@@ -38,7 +39,6 @@ const RestaurantDashboard = () => {
     topCustomers: []
   })
   const analyticsIntervalRef = useRef(null)
-  const headerRef = useRef(null)
 
   useEffect(() => {
     // Check if user is logged in as restaurant
@@ -77,27 +77,6 @@ const RestaurantDashboard = () => {
     return () => { clearInterval(interval); analyticsIntervalRef.current && clearInterval(analyticsIntervalRef.current) }
   }, [restaurantId, navigate])
 
-  // Dynamically set CSS offset for fixed header height (handles different content lengths)
-  useEffect(() => {
-    if (headerRef.current) {
-      const h = headerRef.current.getBoundingClientRect().height
-      document.documentElement.style.setProperty('--rd-header-offset', `${Math.round(h)}px`)
-    }
-  }, [restaurant, editContact])
-
-  // Recalculate header offset on window resize to prevent shift
-  useEffect(() => {
-    const handleResize = () => {
-      if (headerRef.current) {
-        const h = headerRef.current.getBoundingClientRect().height
-        document.documentElement.style.setProperty('--rd-header-offset', `${Math.round(h)}px`)
-      }
-    }
-    window.addEventListener('resize', handleResize)
-    // Initial call in case fonts/styles load after first effect
-    handleResize()
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
   // Load analytics when tab switches to analytics
   useEffect(() => {
     if (activeTab !== 'analytics' || !restaurantId) {
@@ -146,8 +125,7 @@ const RestaurantDashboard = () => {
     return () => analyticsIntervalRef.current && clearInterval(analyticsIntervalRef.current)
   }, [activeTab, restaurantId])
 
-  const maxRevenue = useMemo(() => Math.max(0, ...analytics.revenueTrend.map(d => d.revenue)), [analytics.revenueTrend])
-  const peakHourMax = useMemo(() => Math.max(0, ...analytics.peakHours.map(h => h.count)), [analytics.peakHours])
+  // Removed peak hours & revenue trend cards; associated metrics no longer needed here
 
   // remove old loadRestaurantData (hooks cannot be called inside)
 
@@ -178,29 +156,19 @@ const RestaurantDashboard = () => {
   }
 
   const loadMenuItems = () => {
-    // Load menu items (in real app, this would be API)
-    const menuData = [
-      {
-        id: 'item1',
-        name: 'Masala Dosa',
-        category: 'Breakfast',
-        price: 80,
-        ingredients: ['Rice', 'Lentils', 'Potatoes', 'Onions', 'Spices'],
-        allergens: ['Gluten'],
-        customizable: true,
-        available: true
-      },
-      {
-        id: 'item2',
-        name: 'Idli Sambar',
-        category: 'Breakfast',
-        price: 60,
-        ingredients: ['Rice', 'Lentils', 'Vegetables', 'Spices'],
-        allergens: [],
-        customizable: true,
-        available: true
-      }
-    ]
+    // Load menu from restaurantMenus.js based on restaurantId
+    const menuObj = restaurantMenus[restaurantId]
+    if (!menuObj || !menuObj.categories) {
+      setMenuItems([])
+      return
+    }
+    // Flatten categories into a single array of items, adding category info
+    const menuData = menuObj.categories.flatMap(cat =>
+      cat.items.map(item => ({
+        ...item,
+        category: cat.name
+      }))
+    )
     setMenuItems(menuData)
   }
 
@@ -245,23 +213,7 @@ const RestaurantDashboard = () => {
     addNotification(`Order #${orderId} status updated to ${newStatus}`, 'status')
   }
 
-  useEffect(() => {
-  function adjustOffset() {
-    const header = document.querySelector(".dashboard-header");
-    if (header) {
-      const height = header.offsetHeight;
-      document.documentElement.style.setProperty("--rd-header-offset", `${height}px`);
-    }
-  }
-
-  // Run once
-  adjustOffset();
-
-  // Adjust on window resize
-  window.addEventListener("resize", adjustOffset);
-
-  return () => window.removeEventListener("resize", adjustOffset);
-}, []);
+  // Removed dynamic offset logic to keep header perfectly still
 
 
   const revenue = useMemo(() => {
@@ -296,11 +248,14 @@ const RestaurantDashboard = () => {
   const pendingOrders = orders.filter(order => order.status === 'pending')
   const preparingOrders = orders.filter(order => order.status === 'preparing')
   const readyOrders = orders.filter(order => order.status === 'ready')
+  const deliveredOrders = orders.filter(order => order.status === 'delivered')
+  const cancelledOrders = orders.filter(order => order.status === 'cancelled')
+  const avgOrderValue = deliveredOrders.length ? (revenue / deliveredOrders.length) : 0
 
   return (
     <div className="restaurant-dashboard">
       {/* Header */}
-      <div ref={headerRef} className="dashboard-header" style={{ '--rd-accent': restaurant?.color }}>
+      <div className="dashboard-header" style={{ '--rd-accent': restaurant?.color }}>
         <div className="container">
           <div className="header-content">
             <div className="restaurant-info">
@@ -404,10 +359,31 @@ const RestaurantDashboard = () => {
               </div>
             </div>
             <div className="stat-card">
+              <div className="stat-icon">🚚</div>
+              <div className="stat-content">
+                <h3>{deliveredOrders.length}</h3>
+                <p>Delivered</p>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon">❌</div>
+              <div className="stat-content">
+                <h3>{cancelledOrders.length}</h3>
+                <p>Cancelled</p>
+              </div>
+            </div>
+            <div className="stat-card">
               <div className="stat-icon">💰</div>
               <div className="stat-content">
                 <h3>{formatCurrency(revenue)}</h3>
                 <p>Total Revenue</p>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon">💵</div>
+              <div className="stat-content">
+                <h3>{formatCurrency(avgOrderValue)}</h3>
+                <p>Avg Order Value</p>
               </div>
             </div>
             <div className="stat-card">
@@ -435,7 +411,7 @@ const RestaurantDashboard = () => {
               className={`tab-btn ${activeTab === 'menu' ? 'active' : ''}`}
               onClick={() => setActiveTab('menu')}
             >
-              🍽️ Menu Management
+              Menu Management
             </button>
             <button
               className={`tab-btn ${activeTab === 'notifications' ? 'active' : ''}`}
@@ -710,7 +686,7 @@ const RestaurantDashboard = () => {
                       </div>
                     </div>
                     <div className="analytics-card">
-                      <h3>🍽️ Best Selling Items</h3>
+                      <h3>Best Selling Items</h3>
                       <p>Top 10 (30 days)</p>
                       <div className="chart-placeholder" style={{ display:'grid', gap:6 }}>
                         {analytics.bestItems.length === 0 ? 'No orders yet' : analytics.bestItems.map(it => (
@@ -719,24 +695,6 @@ const RestaurantDashboard = () => {
                             <div style={{ background:'var(--brand-primary)', height:6, borderRadius:4, width:`${(it.qty / analytics.bestItems[0].qty)*60}%` }}></div>
                             <span style={{ fontSize:12, minWidth:30, textAlign:'right' }}>{it.qty}</span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="analytics-card">
-                      <h3>⏰ Peak Order Hours</h3>
-                      <p>Last 7 days</p>
-                      <div className="chart-placeholder" style={{ display:'flex', alignItems:'flex-end', gap:4, height:100 }}>
-                        {analytics.peakHours.map(h => (
-                          <div key={h.hour} style={{ flex:1, background:'var(--brand-primary)', height: peakHourMax? (h.count/peakHourMax)*100:0, borderRadius:3, position:'relative' }} title={`${h.hour}:00 - ${h.count} orders`}></div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="analytics-card">
-                      <h3>💵 Revenue Trend</h3>
-                      <p>Last 30 days</p>
-                      <div className="chart-placeholder" style={{ height:120, display:'flex', alignItems:'flex-end', gap:3 }}>
-                        {analytics.revenueTrend.map(d => (
-                          <div key={d.date} style={{ flex:1, background:'var(--brand-primary)', height: maxRevenue? (d.revenue/maxRevenue)*100:0, borderRadius:3 }} title={`${d.date}: ₹${d.revenue}`}></div>
                         ))}
                       </div>
                     </div>

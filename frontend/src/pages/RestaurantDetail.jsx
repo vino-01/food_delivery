@@ -123,7 +123,7 @@ const RestaurantDetail = () => {
           <div className="container">
             <div className="restaurant-info">
               <div className="restaurant-logo">
-                <span className="logo-icon">{restaurant.icon || '🍽️'}</span>
+                <span className="logo-icon">{restaurant.icon || ''}</span>
               </div>
               <div className="restaurant-details">
                 <h1>{restaurant.name}</h1>
@@ -195,7 +195,7 @@ const RestaurantDetail = () => {
                     {item.image ? (
                       <img src={item.image} alt={item.name} className="menu-item-img" />
                     ) : (
-                      <span className="item-icon">🍽️</span>
+                      <span className="item-icon"></span>
                     )}
                   </div>
                   
@@ -251,7 +251,7 @@ export default RestaurantDetail
 
 const getCategoryIcon = (category) => {
   switch (category) {
-    case 'all': return '🍽️';
+    case 'all': return '';
     case 'breakfast': return '🍳';
     case 'starters': return '🥗';
     case 'main-course': return '🍛';
@@ -262,6 +262,6 @@ const getCategoryIcon = (category) => {
     case 'beverages': return '🥤';
     case 'snacks': return '🥨';
     case 'soups': return '🍜';
-    default: return '🍽️';
+    default: return '';
   }
 };

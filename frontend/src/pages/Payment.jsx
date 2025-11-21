@@ -190,7 +190,7 @@ const Payment = () => {
               📋 View My Orders
             </button>
             <button onClick={() => navigate('/restaurants')} className="order-more-btn">
-              🍽️ Order More Food
+              Order More Food
             </button>
           </div>
         </div>

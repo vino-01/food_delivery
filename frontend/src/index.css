@@ -60,7 +60,11 @@ body {
   background: var(--page-bg);
   color: var(--text);
   line-height: 1.6;
-  /* Offset page content below fixed navbar */
+  /* Navbar offset applied conditionally via .with-navbar class */
+  padding-top: 0;
+}
+
+body.with-navbar {
   padding-top: var(--navbar-height);
 }
 

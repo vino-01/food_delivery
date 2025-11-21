@@ -133,7 +133,6 @@ const Login = () => {
         {/* Header */}
         <div className="login-header">
           <Link to='/' className="logo-link">
-            <div className="logo-icon">🍽️</div>
             <span className="logo-text">YummyBites</span>
           </Link>
 

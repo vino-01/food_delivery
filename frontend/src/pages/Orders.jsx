@@ -25,7 +25,7 @@ const Orders = () => {
         const data = await getUserOrders(userEmail);
         const normalized = (Array.isArray(data) ? data : []).map(o => ({
           id: o._id || o.id || `ORD_${o.createdAt}`,
-          restaurant: { name: o.restaurantName || o.restaurantId, image: '🍽️' },
+          restaurant: { name: o.restaurantName || o.restaurantId, image: '' },
           items: o.items || [],
             total: o.total || 0,
             status: o.status,
